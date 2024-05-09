@@ -1,0 +1,95 @@
+import pandas as pd
+import matplotlib.pylab as plt
+import numpy as np
+     
+df = pd.read_csv("autodata.csv")
+     
+#Check the contents of dataset using df.head() and df.tail() functions
+
+df.head(5)
+
+df.tail(5)
+
+df.info()
+
+df.describe()
+
+df.isnull()
+
+df.isnull().sum()
+
+df.notnull()
+
+df.notnull().sum()
+
+# calculate the mean vaule for "stroke" column
+avg_stroke = df["stroke"].astype("float").mean(axis = 0)
+print("Average of stroke:", avg_stroke)
+
+# replace NaN by mean value in "stroke" column
+df["stroke"].replace(np.nan, avg_stroke, inplace = True)
+
+avg_hp = df["horsepower"].astype("float").mean(axis = 0)
+print("Average of stroke:", avg_hp)
+
+avg_rpm = df["peak-rpm"].astype("float").mean(axis = 0)
+print("Average of stroke:", avg_rpm)
+
+df["peak-rpm"].replace(np.nan, avg_hp, inplace = True)
+df['num-of-doors'].value_counts()
+
+
+df['num-of-doors'].value_counts().idxmax()
+
+#replace the missing 'num-of-doors' values by the most frequent 
+df["num-of-doors"].replace(np.nan, "four", inplace=True)
+
+# simply drop whole row with NaN in "horsepower-binned" column
+df.dropna(subset=["horsepower-binned"], axis=0, inplace=True)
+# reset index, because we droped two rows
+df.reset_index(drop=True, inplace=True)
+df.isnull().sum()
+
+df['city-L/100km'] = 235/df["city-mpg"]
+df.head()
+
+df['highway-L/100km'] = 235/df["highway-mpg"]
+df.head()
+
+df['length'] = df['length']/df['length'].max()
+df['width'] = df['width']/df['width'].max()
+df['height'] = df['height']/df['height'].max() 
+df[["length","width","height"]].head()
+
+df.columns
+
+df['aspiration'].value_counts()
+
+dummy_variable_1 = pd.get_dummies(df["aspiration"])
+dummy_variable_1.head()
+
+
+df = pd.concat([df, dummy_variable_1], axis=1)
+df.drop("aspiration", axis = 1, inplace=True)
+df.head()
+
+df["horsepower"]=df["horsepower"].astype(float, copy=True)
+     
+
+%matplotlib inline
+import matplotlib as plt
+from matplotlib import pyplot
+plt.pyplot.hist(df["horsepower"])
+plt.pyplot.xlabel("horsepower")
+plt.pyplot.ylabel("count")
+plt.pyplot.title("horsepower bins")
+
+
+
+
+
+
+
+
+
+

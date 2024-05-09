@@ -1,0 +1,102 @@
+import nltk
+import math
+nltk.download('punkt')
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+from nltk import pos_tag
+
+sentence1 = "I will walk 500 miles and I would walk 500 more. Just to be the man who walks " + \
+            "a thousand miles to fall down at your door!"
+sentence2 = "I played the play playfully as the players were playing in the play with playfullness"
+
+
+//tokenization
+
+from nltk import word_tokenize, sent_tokenize
+
+print('Tokenized words:', word_tokenize(sentence1))
+print('\nTokenized sentences:', sent_tokenize(sentence1))
+
+//pos tagging
+
+from nltk import pos_tag
+
+token = word_tokenize(sentence1) + word_tokenize(sentence2)
+tagged = pos_tag(token)                 
+
+print("Tagging Parts of Speech:", tagged)
+
+
+//stop word removal
+
+from nltk.corpus import stopwords
+
+stop_words = stopwords.words('english')
+
+token = word_tokenize(sentence1)
+cleaned_token = []
+
+for word in token:
+    if word not in stop_words:
+        cleaned_token.append(word)
+
+print('Unclean version:', token)
+print('\nCleaned version:', cleaned_token)
+
+//stemming
+from nltk.stem import PorterStemmer
+
+stemmer = PorterStemmer()
+
+token = word_tokenize(sentence2)
+
+stemmed = [stemmer.stem(word) for word in token]
+print(" ".join(stemmed))
+
+
+//lemmatization
+
+from nltk.stem import WordNetLemmatizer 
+
+lemmatizer = WordNetLemmatizer()
+
+token = word_tokenize(sentence2)
+
+lemmatized_output = [lemmatizer.lemmatize(word) for word in token]
+print(" ".join(lemmatized_output))
+
+
+//TF IDF CALC
+
+def preprocess(sentence):
+  tokens = nltk.word_tokenize(sentence.lower())
+  return tokens
+
+def calculate_tf(word, sentence):
+  return sentence.count(word) / len(sentence)
+
+
+def calculate_idf(word, all_sentences):
+  document_count = len(all_sentences)
+  sentence_with_word = 0
+  for sentence in all_sentences:
+    if word in sentence:
+      sentence_with_word += 1
+  return math.log(document_count / (1 + sentence_with_word))
+
+def calculate_tfidf(word, sentence, all_sentences):
+  tf = calculate_tf(word, sentence)
+  idf = calculate_idf(word, all_sentences)
+  return tf * idf
+
+sentence1_processed = preprocess(sentence1)
+sentence2_processed = preprocess(sentence2)
+
+all_sentences = sentence1_processed + sentence2_processed
+
+
+word = "and"
+tf_idf = calculate_tfidf(word, sentence1_processed, all_sentences)
+print("TF-IDF for", word, "in sentence 1:", tf_idf)
+

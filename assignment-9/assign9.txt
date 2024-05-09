@@ -1,0 +1,25 @@
+import pandas as pd
+import numpy as np
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+dataset = sns.load_dataset('titanic')
+dataset.head()
+
+
+sns.countplot(dataset['alive'])
+plt.show()
+
+
+dataset['sex'].value_counts().plot(kind="pie", autopct="%.2f")
+plt.show()
+
+plt.hist(dataset['age'], bins=5)
+plt.show()
+
+sns.distplot(dataset['age'])
+plt.show()
+
+sns.boxplot(x="sex", y="age", hue="survived", data = dataset)
+plt.show()

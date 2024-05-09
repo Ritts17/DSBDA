@@ -1,0 +1,61 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import precision_score, confusion_matrix, accuracy_score, recall_score
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+
+df = pd.read_csv('F:/TE All Codes/Sem-6 Lab Files/DSABDAL/Dataset/Social_Network_Ads.csv')
+df
+
+
+df = pd.DataFrame(df)
+
+df.info()
+
+df.drop(['Gender','User ID'],axis=1,inplace=True)
+df
+
+X = df.iloc[:, :-1]  
+Y = df.iloc[:, -1]
+
+xtrain, xtest, ytrain, ytest = train_test_split(X, Y, test_size=0.2, random_state=42)
+
+
+scaler = StandardScaler()
+xtrain = scaler.fit_transform(xtrain)
+xtest = scaler.transform(xtest)
+
+
+logreg = LogisticRegression()
+
+logreg.fit(xtrain, ytrain)
+
+y_pred_train = logreg.predict(xtrain)
+y_pred_test = logreg.predict(xtest)
+
+y_pred_train
+y_pred_test
+
+
+precision = precision_score(ytest, y_pred_test)
+conf_matrix = confusion_matrix(ytest, y_pred_test)
+accuracy = accuracy_score(ytest, y_pred_test)
+recall = recall_score(ytest, y_pred_test)
+
+
+print("Precision:", precision)
+print("Confusion Matrix:\n", conf_matrix)
+print("Accuracy:", accuracy)
+print("Recall:", recall)
+
+
+plt.figure(figsize=(8, 6))
+sns.heatmap(conf_matrix, annot=True, fmt='g', cmap='Blues')
+plt.title('Confusion Matrix')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.show()

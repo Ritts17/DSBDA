@@ -1,0 +1,30 @@
+Steps to run hadoop
+
+1. check hadoop version
+   hadoop version
+
+2.Create a file for input data inside the folder where you have stored(eg. WordCount) the WordCount.java file
+
+3.Add your own text file inside the input_data folder
+
+4.cretae new folder to hold java classes
+Wordcount->tutorial_classes
+
+5. On terminal
+   export HADOOP_CLASSPATH=$(hadoop classpath)
+   6.echo $HADOOP_CLASSPATH
+   7.hadoop fs -mkdir /WordCount
+   8.hadoop fs -mkdir /WordCount/Input
+   9.go to localhost:50070 the utilities and browse directories
+   10.upload input file to that directory
+   hadoop fs -put 'file path copied from file/filename' /WordCount/Input
+   11.Check on localhost if added or not
+   12.Go to main WordCount Folder
+   cd /path/WordCount
+
+6. javac -classpath ${HADOOP_CLASSPATH} -d <path of class-folder we created above(tutorial_classes)> <path of the WordCount.java file here>
+   14.This will create class file in classes folder we created above
+   15.jar -cvf firstTut.jar -C tutorial_classes /.
+7. hadoop <above jar file path> <classname i.e WordCount> /WordCount/Input WordCount/Output
+
+17.hadoop dfs -cat /WordCount/Output/\*
