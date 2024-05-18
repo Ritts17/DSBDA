@@ -10,8 +10,7 @@ Welcome to the repository for the Data Science and Big Data Analytics (DSBDA) La
 4. [Installation](#installation)
 5. [Usage](#usage)
 6. [Contributing](#contributing)
-7. [License](#license)
-8. [Contact](#contact)
+7. [Contact](#contact)
 
 ## Introduction
 
